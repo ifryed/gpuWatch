@@ -6,10 +6,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     let monitor = GPUMonitor()
     let windowState = WidgetWindowState()
     private var widgetWindow: NSWindow?
+    private var statusItemController: StatusItemController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         monitor.start()
+        statusItemController = StatusItemController(monitor: monitor, windowState: windowState)
         showWidgetWindow()
     }
 

@@ -103,6 +103,12 @@ final class WidgetWindowState: NSObject, ObservableObject {
         window.makeKeyAndOrderFront(nil)
 
         let menu = NSMenu()
+        populateSettings(menu, includeQuit: false)
+        let point = NSPoint(x: contentView.bounds.maxX - 36, y: contentView.bounds.maxY - 30)
+        menu.popUp(positioning: nil, at: point, in: contentView)
+    }
+
+    func populateSettings(_ menu: NSMenu, includeQuit: Bool) {
         let pinItem = NSMenuItem(
             title: alwaysOnTop ? "Unpin" : "Pin",
             action: #selector(togglePinned),
@@ -129,8 +135,16 @@ final class WidgetWindowState: NSObject, ObservableObject {
         sizeItem.submenu = sizeMenu
         menu.addItem(sizeItem)
 
-        let point = NSPoint(x: contentView.bounds.maxX - 36, y: contentView.bounds.maxY - 30)
-        menu.popUp(positioning: nil, at: point, in: contentView)
+        if includeQuit {
+            menu.addItem(.separator())
+            let quit = NSMenuItem(
+                title: "Quit GPU Watch",
+                action: #selector(NSApplication.terminate(_:)),
+                keyEquivalent: "q"
+            )
+            quit.target = NSApp
+            menu.addItem(quit)
+        }
     }
 
     @objc private func selectSize(_ sender: NSMenuItem) {
