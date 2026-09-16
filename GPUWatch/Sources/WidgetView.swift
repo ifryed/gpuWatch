@@ -13,53 +13,67 @@ struct WidgetView: View {
                 memoryUsedGB: monitor.memoryUsedGB,
                 gpuName: monitor.gpuName
             )
-            .padding(4)
+            .padding(.top, 16 * windowState.size.scale)
+            .padding(.horizontal, 4 * windowState.size.scale)
+            .padding(.bottom, 4 * windowState.size.scale)
             .animation(.interpolatingSpring(stiffness: 140, damping: 16), value: monitor.utilization)
             .animation(.interpolatingSpring(stiffness: 140, damping: 16), value: monitor.memoryPercent)
 
             header
-                .padding(.horizontal, 10)
-                .padding(.top, 4)
+                .padding(.horizontal, 20 * windowState.size.scale)
+                .padding(.top, 10 * windowState.size.scale)
         }
-        .frame(width: 300, height: 318)
+        .frame(width: windowState.windowSize.width, height: windowState.windowSize.height)
         .background(Color.clear)
         .onHover { hovering = $0 }
     }
 
+    private var controlSize: CGFloat {
+        max(22, 26 * windowState.size.scale)
+    }
+
     private var header: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 8 * windowState.size.scale) {
             Text("GPU")
-                .font(.system(size: 11, weight: .semibold, design: .rounded))
+                .font(.system(size: max(9, 11 * windowState.size.scale), weight: .semibold, design: .rounded))
                 .tracking(1.4)
                 .foregroundStyle(.white.opacity(0.8))
                 .shadow(color: .black.opacity(0.85), radius: 2, y: 1)
 
             Spacer()
 
-            Button {
-                windowState.alwaysOnTop.toggle()
-            } label: {
-                Image(systemName: windowState.alwaysOnTop ? "pin.fill" : "pin")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(windowState.alwaysOnTop ? Color.orange : Color.white.opacity(0.85))
-                    .frame(width: 26, height: 26)
-                    .background(Color.black.opacity(hovering ? 0.35 : 0.18), in: Circle())
-            }
-            .buttonStyle(.plain)
-            .help(windowState.alwaysOnTop ? "Keep in front: on" : "Keep in front: off")
+            HStack(spacing: 8 * windowState.size.scale) {
+                Button {
+                    windowState.presentSettingsMenu()
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .font(.system(size: max(12, 14 * windowState.size.scale), weight: .bold))
+                        .foregroundStyle(.white)
+                        .frame(width: controlSize, height: controlSize)
+                        .background(controlBackground)
+                }
+                .buttonStyle(.plain)
+                .help("Settings")
 
-            Button {
-                windowState.isVisible = false
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.white.opacity(0.85))
-                    .frame(width: 26, height: 26)
-                    .background(Color.black.opacity(hovering ? 0.35 : 0.18), in: Circle())
+                Button {
+                    windowState.isVisible = false
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: max(10, 11 * windowState.size.scale), weight: .bold))
+                        .foregroundStyle(.white)
+                        .frame(width: controlSize, height: controlSize)
+                        .background(controlBackground)
+                }
+                .buttonStyle(.plain)
+                .help("Hide widget")
             }
-            .buttonStyle(.plain)
-            .help("Hide widget")
         }
-        .opacity(hovering ? 1 : 0.9)
+        .opacity(1)
+    }
+
+    private var controlBackground: some View {
+        Circle()
+            .fill(Color.black.opacity(hovering ? 0.55 : 0.4))
+            .overlay(Circle().stroke(Color.white.opacity(0.28), lineWidth: 1))
     }
 }

@@ -22,6 +22,20 @@ private struct MenuBarMenu: View {
         }
         Toggle("Keep in Front", isOn: $windowState.alwaysOnTop)
         Divider()
+        Menu("Size") {
+            ForEach(WidgetSize.allCases) { size in
+                Button {
+                    windowState.size = size
+                } label: {
+                    if windowState.size == size {
+                        Label(size.title, systemImage: "checkmark")
+                    } else {
+                        Text(size.title)
+                    }
+                }
+            }
+        }
+        Divider()
         Button("Quit GPU Watch") {
             NSApp.terminate(nil)
         }

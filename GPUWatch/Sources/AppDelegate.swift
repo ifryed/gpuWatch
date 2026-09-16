@@ -19,8 +19,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     }
 
     private func showWidgetWindow() {
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 300, height: 318),
+        let size = windowState.windowSize
+        let window = WidgetWindow(
+            contentRect: NSRect(x: 0, y: 0, width: size.width, height: size.height),
             styleMask: [.borderless],
             backing: .buffered,
             defer: false
@@ -56,6 +57,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         widgetWindow = window
         windowState.attach(window)
     }
+}
+
+private final class WidgetWindow: NSWindow {
+    override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { true }
 }
 
 private final class TransparentHostingView<Content: View>: NSHostingView<Content> {
