@@ -48,7 +48,7 @@ final class WidgetWindowState: NSObject, ObservableObject {
             if isVisible {
                 window?.orderFrontRegardless()
             } else {
-                window?.orderOut(nil)
+                NSApp.terminate(nil)
             }
         }
     }

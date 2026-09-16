@@ -18,6 +18,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         return false
     }
 
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        true
+    }
+
     private func showWidgetWindow() {
         let size = windowState.windowSize
         let window = WidgetWindow(
@@ -31,7 +35,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         window.hasShadow = false
         window.isMovableByWindowBackground = true
         window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary]
-        window.isReleasedWhenClosed = false
+        window.isReleasedWhenClosed = true
         window.title = "GPU Watch"
         window.setFrameAutosaveName("GPUWatchWidget")
 

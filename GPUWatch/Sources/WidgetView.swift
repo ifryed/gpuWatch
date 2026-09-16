@@ -56,7 +56,7 @@ struct WidgetView: View {
                 .help("Settings")
 
                 Button {
-                    windowState.isVisible = false
+                    NSApp.terminate(nil)
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: max(10, 11 * windowState.size.scale), weight: .bold))
@@ -65,7 +65,7 @@ struct WidgetView: View {
                         .background(controlBackground)
                 }
                 .buttonStyle(.plain)
-                .help("Hide widget")
+                .help("Quit GPU Watch")
             }
         }
         .opacity(1)

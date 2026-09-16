@@ -17,9 +17,6 @@ private struct MenuBarMenu: View {
     @ObservedObject var windowState: WidgetWindowState
 
     var body: some View {
-        Button(windowState.isVisible ? "Hide Widget" : "Show Widget") {
-            windowState.toggleVisibility()
-        }
         Toggle("Keep in Front", isOn: $windowState.alwaysOnTop)
         Divider()
         Menu("Size") {
