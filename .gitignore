@@ -1,0 +1,7 @@
+GPUWatch.app
+GPUWatch.dmg
+dist/
+.DS_Store
+xcuserdata
+DerivedData
+.build
